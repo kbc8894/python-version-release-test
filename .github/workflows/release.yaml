@@ -21,8 +21,8 @@ jobs:
           VERSION=$(echo $GITHUB_REF | sed 's#.*/v##')
           PLACEHOLDER='__version__ = "latest"'
           VERSION_FILE='pyverrt/__init__.py'
-          grep ${PLACEHOLDER} ${VERSION_FILE}
-          sed -i "s/${PLACEHOLDER}/__version__ = \"${VERSION}\"/g" ${VERSION_FILE}
+          grep "${PLACEHOLDER}" "${VERSION_FILE}"
+          sed -i "s/${PLACEHOLDER}/__version__ = \"${VERSION}\"/g" "${VERSION_FILE}"
       - name: Commit file
         run: |
           # from refs/tags/v1.2.3 get v1.2.3
