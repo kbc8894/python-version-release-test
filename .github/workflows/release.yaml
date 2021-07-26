@@ -22,6 +22,7 @@ jobs:
           python-version: "3.8"
       - name: Change package version
         run: |
+          echo ${VERSION} ${VERSION_WITH_V} ${PLACEHOLDER} ${VERSION_FILE}
           grep "${PLACEHOLDER}" "${VERSION_FILE}"
           sed -i "s/${PLACEHOLDER}/__version__ = \"${VERSION}\"/g" "${VERSION_FILE}"
       - name: Commit file
