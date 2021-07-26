@@ -9,6 +9,11 @@ jobs:
     if: |
       github.event_name == 'release'
     runs-on: ubuntu-latest
+    env:
+      VERSION: $(echo $GITHUB_REF | sed 's#.*/v##')
+      VERSION_WITH_V: $(echo $GITHUB_REF | sed 's#.*/##')
+      PLACEHOLDER: '__version__ = "latest"'
+      VERSION_FILE: "pyverrt/__init__.py"
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
@@ -17,22 +22,16 @@ jobs:
           python-version: "3.8"
       - name: Change package version
         run: |
-          # from refs/tags/v1.2.3 get 1.2.3
-          VERSION=$(echo $GITHUB_REF | sed 's#.*/v##')
-          PLACEHOLDER='__version__ = "latest"'
-          VERSION_FILE='pyverrt/__init__.py'
           grep "${PLACEHOLDER}" "${VERSION_FILE}"
           sed -i "s/${PLACEHOLDER}/__version__ = \"${VERSION}\"/g" "${VERSION_FILE}"
       - name: Commit file
         run: |
           # from refs/tags/v1.2.3 get v1.2.3
-          VERSION=$(echo $GITHUB_REF | sed 's#.*/##')
-          VERSION_FILE='pyverrt/__init__.py'
           git config --local user.email "kbc8894@gmail.com"
           git config --local user.name "Byungchan Kim"
           git add ${VERSION_FILE}
-          git commit -m "bumped version to ${VERSION}"
-          git tag -f ${VERSION}
+          git commit -m "bumped version to ${VERSION_WITH_V}"
+          git tag -f ${VERSION_WITH_V}
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
