@@ -1,6 +1,10 @@
 name: After Release Work
 
 on:
+  workflow_run:
+    workflows: ["Release Python Package"]
+    types:
+      - completed
   push:
     branches: ["main", "release"]
     tags: ["*"]
