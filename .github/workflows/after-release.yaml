@@ -18,8 +18,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Download version string from github action's artifact
-        uses: actions/download-artifact@v2
+        uses: dawidd6/action-download-artifact@v2
         with:
+          workflow: release.yaml
           name: release-version
       - name: check github variable
         run: |
