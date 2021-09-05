@@ -11,10 +11,19 @@ on:
 
 jobs:
   test:
+    if: |
+      github.event_name == 'workflow_run'
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Download version string from github action's artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: release-version
       - name: check github variable
         run: |
+          echo $(cat release-version.txt)
           echo $GITHUB_REF
           echo ${{ github.event_name }}
           echo ${{ github.event.base_ref }}
