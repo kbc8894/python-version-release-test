@@ -22,9 +22,11 @@ jobs:
         with:
           workflow: release.yaml
           name: release-version
-      - name: check github variable
+      - name: check release version
+        id: release-version
         run: |
-          echo $(cat release-version.txt)
-          echo $GITHUB_REF
-          echo ${{ github.event_name }}
-          echo ${{ github.event.base_ref }}
+          echo "::set-output name=VERSION::$(cat release-version.txt)"
+          echo "$(cat release-version.txt)"
+      - name: print release version
+        run: |
+          echo ${{ steps.release-version.outputs.VERSION }}
