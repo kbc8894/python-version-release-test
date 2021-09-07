@@ -26,7 +26,9 @@ jobs:
         id: release-version
         run: |
           echo "::set-output name=VERSION::$(cat release-version.txt)"
+          echo "::set-output name=VERSION_WO_V::$(cat release-version.txt | sed 's/v//')"
           echo "$(cat release-version.txt)"
       - name: print release version
         run: |
           echo ${{ steps.release-version.outputs.VERSION }}
+          echo ${{ steps.release-version.outputs.VERSION_WO_V }}
